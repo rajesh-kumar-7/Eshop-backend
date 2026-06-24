@@ -7,7 +7,7 @@ export const signupUser = async (req,res)=>{
         //checking if user already exist or not
         const userExist=await User.findOne({email});
         if(userExist){
-            res.json({massage:"User already exist"})
+            res.status(404).json({massage:"User already exist"})
         }
         //hash password
         const hashedpass= await bcrypt.hash(password,10);
@@ -32,7 +32,7 @@ export const login= async (req,res)=>{
         const {email,password}=req.body;
         const user= await User.findOne({email});
         if(!user){
-            res.json({message:"User not exist"})
+            res.status(404).json({message:"User not exist"})
         }
         const validPass= await bcrypt.compare(password,user.password);
         if(!validPass){
